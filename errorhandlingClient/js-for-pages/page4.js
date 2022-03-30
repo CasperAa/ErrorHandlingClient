@@ -1,4 +1,4 @@
-import { SERVER } from "../settings.js"
+import { SERVER } from "../configuration/settings.js"
 
 const SERVER_URL = SERVER + "/api/quotes"
 
@@ -14,7 +14,7 @@ function findQuote() {
   fetch(`${SERVER_URL}/${id}`)
     .then(res => {
       if (!res.ok) {
-        throw new Error("Could not find quote (")
+        throw new Error("Could not find quote")
       }
       return res.json()
     })

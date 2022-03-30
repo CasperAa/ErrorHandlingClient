@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/quotes")
-@CrossOrigin
+@CrossOrigin("http://127.0.0.1:5500/")
 public class QuoteRestController {
   static Map<Integer, Quote> quotes;
   static {

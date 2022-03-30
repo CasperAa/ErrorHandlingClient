@@ -1,4 +1,4 @@
-import { SERVER } from "../settings.js"
+import { SERVER } from "../configuration/settings.js"
 
 const API_URL = SERVER + "/api/quotes"
 
