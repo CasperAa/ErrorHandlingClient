@@ -1,5 +1,5 @@
 
-import { renderTemplate, setActive, showPage } from "./utils.js"
+import { renderTemplate, setActive, showPage } from "./configuration/utils.js"
 import { loadAllQuotes } from "./js-for-pages/page2.js"
 import { setUpAddButtonHandler } from "./js-for-pages/page3.js"
 import { page4Handlers } from "./js-for-pages/page4.js"

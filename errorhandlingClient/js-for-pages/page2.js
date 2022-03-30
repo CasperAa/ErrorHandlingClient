@@ -4,6 +4,7 @@ import { encode } from "../configuration/utils.js"
 import { handleHttpErrors } from "../configuration/fetchUtils.js"
 
 
+// @ts-ignore
 export async function loadAllQuotes() {
   try{
   const allQuotes = await fetch(SERVER + "/api/quotes")

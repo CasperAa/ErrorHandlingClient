@@ -76,6 +76,8 @@
     <button class="btn btn-primary mb-3" id="btn-add">Add Quote</button>
   </div>
   <div id="addedQuote"></div>
+  <p id="error" style="color: red;"></P>
+
 
 </template>
 
@@ -99,8 +101,10 @@
       <label for="author" class="form-label">Author</label>
       <input type="text" class="form-control" id="author">
     </div>
+    <div id="editedQuote"></div>
+    <div id="deletedQuote"></div>
+    <p id="error" style="color: red"></p>
     <div class="col-auto">
-      <button class="btn btn-primary mb-3" id="btn-add">Add Quote</button>
       <button class="btn btn-secondary mb-3" id="btn-edit">Edit Quote</button>
       <button class="btn btn-danger mb-3" id="btn-delete">Delete Quote</button>
     </div>

@@ -1,4 +1,5 @@
 import { SERVER } from "../configuration/settings.js"
+import { handleHttpErrors, makeOptions } from "../configuration/fetchUtils.js"
 
 const SERVER_URL = SERVER + "/api/quotes"
 
@@ -9,66 +10,71 @@ export function page4Handlers() {
 }
 
 
-function findQuote() {
+// @ts-ignore
+async function findQuote() {
   const id = getIdFromInputField()
-  fetch(`${SERVER_URL}/${id}`)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error("Could not find quote")
-      }
-      return res.json()
-    })
-    .then(foundQuote => {
+  try{
+  const foundQuote = await fetch(`${SERVER_URL}/${id}`)
+    .then(res => handleHttpErrors(res))
+
+      // @ts-ignore 
       document.getElementById("quote").value = foundQuote.quote
+      // @ts-ignore
       document.getElementById("author").value = foundQuote.ref
-    })
-    .catch(e => alert(e.message + " (NEVER use alerts for real)"))
-}
 
-function editQuote() {
-  const id = getIdFromInputField()
-  const editedQuote = {
-    id: id
+  } catch (err){
+    document.getElementById("error").innerText = err.message
   }
-  editedQuote.quote = document.getElementById("quote").value
-  editedQuote.ref = document.getElementById("author").value
+}
 
-  fetch(SERVER_URL + "/" + id, {
-    method: "PUT",
-    headers: {
-      "Accept": "application/json",
-      "Content-type": "application/json"
-    },
-    body: JSON.stringify(editedQuote)
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error("Error while editing the quote")
-      }
-      return res.json()
-    })
-    .then(result => clearFields())
-    .catch(err => alert(err.message + " (NEVER USE ALERT FOR REAL)"))
+// @ts-ignore
+async function editQuote() {
+    const id = getIdFromInputField()
+    const editedQuote = {
+      id: id
+    }
+    // @ts-ignore
+    editedQuote.quote = document.getElementById("quote").value
+    // @ts-ignore
+    editedQuote.ref = document.getElementById("author").value
 
+    try{
+    const options = makeOptions("PUT", editedQuote)
+    const updateQuote = await fetch(SERVER_URL + "/" + id, options)
+      .then(res => handleHttpErrors(res))
+        document.getElementById("editedQuote").innerText = 
+          JSON.stringify(updateQuote)
+        clearFields()
+    } catch (err){
+    document.getElementById("error").innerText = err.message
+    }
 
 }
+// @ts-ignore
 async function deleteQuote() {
+  document.getElementById("deleteStatus").innerText = ""
   const id = getIdFromInputField()
-  await fetch(SERVER_URL + "/" + id, {
+  const deletedQuote = await fetch(SERVER_URL + "/" + id, {
     method: "DELETE"
-  }).then(res => {
-    res.text()
-  })
+  }).then(res => handleHttpErrors(res))
   clearFields()
+  document.getElementById("deleteStatus").innerText = JSON.stringify(deleteQuote) + " Deleted"
+
+
+
 }
 
 function clearFields() {
+  // @ts-ignore
   document.getElementById("quote-id").value = ""
+  // @ts-ignore
   document.getElementById("quote").value = ""
+  // @ts-ignore
   document.getElementById("author").value = ""
 }
 
 function getIdFromInputField() {
+  // @ts-ignore
   const id = document.getElementById("quote-id").value
   if (id === "") {
     throw new Error("No ID Provided")
